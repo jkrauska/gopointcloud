@@ -32,6 +32,27 @@ Intermediates (COLMAP database, models, depth maps) are in `work/<name>/`.
 
 Coordinates are local ENU metres about the first frame's GPS position, Z up.
 
+## Tuning knobs
+
+`run.py` (video):
+
+| Flag | Default | When to change |
+|---|---|---|
+| `--fps` | 3 | Raise to 5–8 for fast motion or more sparse points (matcher overlap scales with it, 4 s window). Costs roughly linear time. |
+| `--drop-blurry` | 0.2 | Fraction of frames dropped by Laplacian sharpness. Raise for shaky footage, 0 if frames are all sharp. |
+| `--camera` | `OPENCV_FISHEYE` | Wide lens. Use `OPENCV` for Linear lens mode, `SIMPLE_RADIAL_FISHEYE` if fisheye is unstable. Fisheye needs the focal prior `sfm.fisheye_prior` derives from a 120° HFOV guess — adjust for other lens modes. |
+| `--align` | `gravity` | Accelerometer up + GPS East/North. `enu` = COLMAP `model_aligner` on lat/lon/alt (worse tilt, no IMU needed). |
+| `--dense` | off | OpenMVS. `mvs.run(resolution_level=...)`: 0 = full res (fine for 480p), 1–2 for 4K. Time goes ~4× per level. |
+
+`run_images.py` (stills) adds `--start/--count/--step` to subsample and
+`--max-size` (default 2000 px) for SIFT downscaling; 12 MP at 2000 px gave
+~13k keypoints/frame, plenty.
+
+Things not exposed as flags but worth knowing: SIFT cap is 8192 features/frame
+(`SiftExtraction.max_num_features`); `model_aligner --alignment_max_error` is
+5 m (raise for noisy GPS); the gravity smoothing window is 1 s
+(`gravity.up_in_camera(smooth_s=)`).
+
 ## Viewing
 
 - Web: `http://localhost:8765/<name>/index.html`
