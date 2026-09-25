@@ -216,3 +216,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+work/
+out/
+data/
+samples/*.mp4
+work*/
+out*/
+samples/*
+!samples/SOURCES.md

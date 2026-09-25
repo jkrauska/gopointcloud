@@ -1,0 +1,16 @@
+[project]
+name = "gopointcloud"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.12"
+dependencies = [
+    "matplotlib>=3.11.2",
+    "numpy>=2.5.3",
+    "opencv-python-headless>=5.0.0.93",
+    "pillow>=12.3.0",
+    "plyfile>=1.1.5",
+    "pyogrio>=0.13.0",
+    "pyproj>=3.8.0",
+    "rasterio>=1.5.1",
+    "shapely>=2.1.2",
+]
